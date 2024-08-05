@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TO-DO</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .todo-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .todo-item:last-child {
+            border-bottom: none;
+        }
+        .todo-actions a {
+            margin-left: 10px;
+            color: #007bff;
+        }
+        .todo-actions a:hover {
+            text-decoration: underline;
+        }
+        .done {
+            text-decoration: line-through;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center my-4">Todos</h1>
+        <ul class="list-unstyled">
+                {% for todo in todos %}
+                    <li class="todo-item">
+                        <span class="{% if todo['done'] %} done{% endif %}">{{ todo['task'] }}</span>
+                        <div class="todo-actions">
+                            <a href="{{ url_for('check', index=loop.index0) }}">Check</a>
+                            <a href="{{ url_for('update', index=loop.index0) }}">Update</a>
+                            <a href="{{ url_for('delete', index=loop.index0) }}">Delete</a>
+                        </div>
+                    </li>
+                {% endfor %}
+        </ul>
+        <form action="{{ url_for('create') }}" method="post" class="mt-4">
+            <div class="input-group">
+                <input type="text" class="form-control" name="todo" placeholder="New task">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">Create Todo</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
